@@ -5,15 +5,7 @@ import {
   ownerOnlyMiddleware,
 } from "../middlewares/auth.middleware.js";
 
-import {
-  register,
-  login,
-  getMe,
-  updateProfile,
-  updateHabits,
-  updatePassword,
-  deleteAccount,
-} from "../controllers/authController.js";
+import {register,login,getMe,updateProfile,updateHabits,updatePassword,deleteAccount,} from "../controllers/authController.js";
 
 const router = express.Router();
 
