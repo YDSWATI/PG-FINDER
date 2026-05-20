@@ -130,29 +130,73 @@ const getMe = async (req, res) => {
 // @access  Private
 // Update profile — name, phone, city, budget
 // ─────────────────────────────────────────────────────────────────────────────
+
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
+
 const updateProfile = async (req, res) => {
   try {
-    // Only allow these fields to be updated (never role or password here)
-    const { name, phone, city, budget, avatar } = req.body;
+
+    const { name, phone, city, budget } = req.body;
+
+    let avatar;
+
+    // upload avatar if file exists
+    if (req.file) {
+
+      const uploadedAvatar = await uploadOnCloudinary(
+        req.file.path
+      );
+
+      if (uploadedAvatar) {
+        avatar = uploadedAvatar.secure_url;
+      }
+    }
 
     const updatedUser = await User.findByIdAndUpdate(
       req.user.id,
-      { name, phone, city, budget, avatar },
       {
-        new: true,          // return the updated document
-        runValidators: true, // run schema validators on update
+        name,
+        phone,
+        city,
+        budget,
+
+        // only update avatar if uploaded
+        ...(avatar && { avatar }),
+      },
+      {
+        new: true,
+        runValidators: true,
       }
     );
 
-    res.status(200).json({ success: true, user: updatedUser });
+    res.status(200).json({
+      success: true,
+      user: updatedUser,
+    });
+
   } catch (error) {
+
+    console.log(error);
+
     if (error.name === "ValidationError") {
-      const messages = Object.values(error.errors).map((e) => e.message);
-      return res.status(400).json({ success: false, message: messages[0] });
+      const messages = Object.values(error.errors).map(
+        (e) => e.message
+      );
+
+      return res.status(400).json({
+        success: false,
+        message: messages[0],
+      });
     }
-    res.status(500).json({ success: false, message: "Server error" });
-  }
+
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+}
 };
+
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // @route   PATCH /api/auth/me/habits

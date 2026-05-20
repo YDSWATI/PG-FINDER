@@ -15,12 +15,13 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 
-//routes import
+//AUTH ROUTES
 import authRoutes from "./routes/authRoute.js"
-
-//routes declaration
 app.use("/api/auth", authRoutes);
+//PG LISTING ROUTES
+import pgListingRoutes from "./routes/pgListRoute.js"
+app.use("/api/listings", pgListingRoutes)
 
-// http://localhost:8000/api/v1/users/register
+
 
 export { app }
