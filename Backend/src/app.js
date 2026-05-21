@@ -21,7 +21,7 @@ app.use("/api/auth", authRoutes);
 //PG LISTING ROUTES
 import pgListingRoutes from "./routes/pgListRoute.js"
 app.use("/api/listings", pgListingRoutes)
-
-
+import matchRoutes from "./routes/matchRoute.js"
+app.use("/api/matches", matchRoutes)
 
 export { app }
