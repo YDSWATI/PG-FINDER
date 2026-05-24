@@ -18,8 +18,9 @@ export default function Home() {
           <div style={S.logoIcon}>PG</div>
           <span style={S.logoText}>PGMatch</span>
         </div>
-
+    
         <div style={S.navActions}>
+            
 
           {
             user ? (
@@ -217,12 +218,7 @@ export default function Home() {
             Join PGMatch today and simplify your PG hunting experience.
           </p>
 
-          <button
-            style={S.primaryHeroBtn}
-            onClick={() => navigate("/register")}
-          >
-            Create Account
-          </button>
+          
 
         </div>
 

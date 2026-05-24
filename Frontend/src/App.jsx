@@ -7,6 +7,8 @@ import Home from "./pages/Home/Home";
 import { AllPgList } from "./pages/PGList/AllPgList";
 import PGProfile from "./pages/Profiles/PgProfile";
 import MyProfile from "./pages/Profiles/MyProfile";
+import UpdateProfile from "./pages/Seeker/updateProfile";
+import UpdateHabits from "./pages/Seeker/updateHabits";
 function App() {
   return (
 
@@ -22,6 +24,8 @@ function App() {
         <Route path="/pglist" element ={<AllPgList/>} />
         <Route path="/pgprofile" element ={<PGProfile/>} />
         <Route path="/myprofile" element ={<MyProfile/>} />
+        <Route path="/updateProfile" element ={<UpdateProfile/>} />
+        <Route path="/updateHabits" element ={<UpdateHabits/>} />
 
 
          

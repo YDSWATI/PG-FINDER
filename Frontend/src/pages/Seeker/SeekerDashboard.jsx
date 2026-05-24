@@ -26,7 +26,7 @@ const SEEKER_NAV = [
     ),
   },
   {
-    to: "/profile/edit",
+    to: "/updateProfile",
     label: "Update Profile",
     icon: (
       <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">

@@ -134,13 +134,19 @@ const getMe = async (req, res) => {
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const updateProfile = async (req, res) => {
+
   try {
 
-    const { name, phone, city, budget } = req.body;
+    let { name, phone, city, budget } = req.body;
+
+    // parse budget
+    if (budget) {
+      budget = JSON.parse(budget);
+    }
 
     let avatar;
 
-    // upload avatar if file exists
+    // upload avatar
     if (req.file) {
 
       const uploadedAvatar = await uploadOnCloudinary(
@@ -160,7 +166,6 @@ const updateProfile = async (req, res) => {
         city,
         budget,
 
-        // only update avatar if uploaded
         ...(avatar && { avatar }),
       },
       {
@@ -179,6 +184,7 @@ const updateProfile = async (req, res) => {
     console.log(error);
 
     if (error.name === "ValidationError") {
+
       const messages = Object.values(error.errors).map(
         (e) => e.message
       );
@@ -193,7 +199,7 @@ const updateProfile = async (req, res) => {
       success: false,
       message: "Server error",
     });
-}
+  }
 };
 
 
