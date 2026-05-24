@@ -46,7 +46,7 @@ const SEEKER_NAV = [
     ),
   },
   {
-    to: "/quiz",
+    to: "/updateHabits",
     label: "Update Habits",
     icon: (
       <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -55,16 +55,16 @@ const SEEKER_NAV = [
       </svg>
     ),
   },
-  {
-    to: "/chat",
-    label: "Messages",
-    badge: 2,
-    icon: (
-      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-      </svg>
-    ),
-  },
+//   {
+//     to: "/chat",
+//     label: "Messages",
+//     badge: 2,
+//     icon: (
+//       <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+//         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+//       </svg>
+//     ),
+//   },
 ];
 
 // ── Reusable sidebar ──────────────────────────────────────────────────────────
