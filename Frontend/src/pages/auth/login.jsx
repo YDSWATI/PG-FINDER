@@ -30,14 +30,19 @@ export default function LoginPage() {
         formData
       );
 
-      console.log(response.data);
+      console.log(response.data.user);
 
       localStorage.setItem(
         "token",
         response.data.token
       );
 
-      alert("Login successful");
+      if(response.data.user.role === "seeker"){
+        navigate("/seeker")
+      }
+      else{
+        navigate("/owner")
+      }
 
     } catch (error) {
       console.log(error);
