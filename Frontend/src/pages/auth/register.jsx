@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../../api/axios";
+import { Link } from "react-router-dom";
 
 const Register = () => {
 
@@ -14,7 +15,6 @@ const Register = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // handle input change
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -39,6 +39,16 @@ const Register = () => {
 
       alert("User registered successfully");
 
+      // empty all fields after success
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        city: "",
+        phone: "",
+        role: "seeker",
+      });
+
     } catch (error) {
 
       console.log(error);
@@ -55,7 +65,7 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-
+     
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-xl shadow-md w-full max-w-md"
@@ -126,10 +136,11 @@ const Register = () => {
           <option value="owner">Owner</option>
         </select>
 
+        {/* Register Button */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-black text-white p-3 rounded-lg"
+          className="w-full bg-black text-white p-3 rounded-lg mb-4"
         >
           {
             loading
@@ -137,6 +148,16 @@ const Register = () => {
               : "Register"
           }
         </button>
+
+        {/* Login Button */}
+        <Link to="/login">
+          <button
+            type="button"
+            className="w-full border border-black p-3 rounded-lg"
+          >
+            Already have an account? Login
+          </button>
+        </Link>
 
       </form>
 
