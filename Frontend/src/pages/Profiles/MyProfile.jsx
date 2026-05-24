@@ -2,11 +2,49 @@
 
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import api from "../../api/axios";
 
 const MyProfile = () => {
 
-  const { user } = useAuth();
-  const navigate = useNavigate();
+        const { user } = useAuth();
+        const navigate = useNavigate();
+
+        const deleteAccount = async () => {
+
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete your account?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+
+            const response = await api.delete(
+            "/auth/me"
+            );
+
+            console.log(response.data);
+
+            alert("Account deleted successfully");
+
+            // remove token
+            localStorage.removeItem("token");
+
+            // remove user if stored
+            localStorage.removeItem("user");
+
+            navigate("/login");
+
+        } catch (error) {
+
+            console.log(error);
+
+            alert(
+            error.response?.data?.message ||
+            "Failed to delete account"
+            );
+        }
+        };
 
   return (
 
@@ -104,6 +142,9 @@ const MyProfile = () => {
                 </button>
 
                 <button
+                  onClick={()=>{
+                    deleteAccount();
+                  }}
                   className="border border-red-500 text-red-400 hover:bg-red-500/10 px-6 py-3 rounded-2xl text-sm font-medium"
                 >
                   Delete Account

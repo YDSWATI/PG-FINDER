@@ -20,7 +20,7 @@ router.post("/login", login);
 // ─── Protected Routes ───────────────────────────────────────
 router.get("/me", authMiddleware, getMe);
 
-router.put(
+router.patch(
   "/update-profile",
   authMiddleware,
   upload.single("avatar"),

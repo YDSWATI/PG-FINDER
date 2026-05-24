@@ -93,7 +93,7 @@ const UpdateProfile = () => {
 
         console.log(token);
 
-        const response = await api.put(
+        const response = await api.patch(
         "/auth/update-profile",
         data,
         {
