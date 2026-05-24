@@ -16,7 +16,7 @@ const PGCard = () => {
         />
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
 
         {/* Top Tags */}
         <div className="absolute top-3 left-3 bg-[#7c6ff7] text-white text-[10px] px-2.5 py-1 rounded-full font-medium">
