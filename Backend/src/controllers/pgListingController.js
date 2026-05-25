@@ -100,46 +100,77 @@ try {
 // ─────────────────────────────
 const getAllListings = async (req, res) => {
   try {
-    const { city, minRent, maxRent, genderPreference, roomType } =
-      req.query;
 
-    const filter = { isActive: true };
+    const {
+      city,
+      minRent,
+      maxRent,
+      genderPreference,
+      roomType,
+    } = req.query;
 
-    if (city) filter.city = new RegExp(city, "i");
+    const filter = {
+      isActive: true,
+    };
 
-    if (minRent || maxRent) {
-      filter.rent = {};
-      if (minRent) filter.rent.$gte = Number(minRent);
-      if (maxRent) filter.rent.$lte = Number(maxRent);
+    // city
+    if (city && city.trim() !== "") {
+      filter.city = {
+        $regex: city,
+        $options: "i",
+      };
     }
 
-    if (genderPreference) filter.genderPreference = genderPreference;
-    if (roomType) filter.roomType = roomType;
+    // rent
+    if (minRent || maxRent) {
+
+      filter.rent = {};
+
+      if (minRent) {
+        filter.rent.$gte = Number(minRent);
+      }
+
+      if (maxRent) {
+        filter.rent.$lte = Number(maxRent);
+      }
+    }
+
+    // gender
+    if (genderPreference) {
+      filter.genderPreference = genderPreference;
+    }
+
+    // room type
+    if (roomType) {
+      filter.roomType = roomType;
+    }
 
     const listings = await PGListing.find(filter)
       .populate("owner", "name phone")
       .sort({ createdAt: -1 });
 
-    res.json({
+    res.status(200).json({
       success: true,
       listings,
     });
+
   } catch (error) {
+
+    console.log(error);
+
     res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
-
-
 // ─────────────────────────────
 // GET SINGLE LISTING
 // ─────────────────────────────
 const getListingById = async (req, res) => {
   try {
     const listing = await PGListing.findById(req.params.id)
-      .populate("owner", "name phone");
+      .populate("owner", "name avatar phone");
 
     if (!listing || !listing.isActive) {
       return res.status(404).json({

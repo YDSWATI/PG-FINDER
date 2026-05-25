@@ -46,15 +46,26 @@ const OWNER_NAV = [
     ),
   },
   {
-    to: "/chat",
-    label: "Messages",
-    badge: 5,
-    icon: (
-      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-      </svg>
-    ),
-  },
+  to: "/createpg",
+  label: "Add new PG",
+
+  icon: (
+    <svg
+      width="16"
+      height="16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      viewBox="0 0 24 24"
+    >
+      <path d="M3 10.5L12 3l9 7.5" />
+      <path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5" />
+      <path d="M9 21v-6h6v6" />
+      <path d="M19 6v4" />
+      <path d="M17 8h4" />
+    </svg>
+  ),
+},
 ];
 
 // ── Sidebar ───────────────────────────────────────────────────────────────────
@@ -169,7 +180,7 @@ export default function OwnerDashboard() {
         <div style={S.topbar}>
           <div style={S.topbarTitle}>Owner Dashboard</div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <button onClick={() => navigate("/owner/listing/new")} style={S.addBtn}>
+            <button onClick={() => navigate("/createpg")} style={S.addBtn}>
               <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
               </svg>

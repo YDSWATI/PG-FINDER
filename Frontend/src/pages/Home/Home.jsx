@@ -87,7 +87,7 @@ export default function Home() {
 
             <button
               style={S.secondaryHeroBtn}
-              onClick={() => navigate("/listings")}
+              onClick={() => navigate("/explorepg")}
             >
               Explore PGs
             </button>

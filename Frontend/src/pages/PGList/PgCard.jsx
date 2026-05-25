@@ -1,99 +1,122 @@
-// src/components/cards/PGCard.jsx
+import { useNavigate } from "react-router-dom";
 
-const PGCard = () => {
-
+export const PgCard = ({ pg }) => {
+  const navigate = useNavigate();
   return (
 
-    <div className="bg-[#131318] border border-white/10 rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 group">
+    <div className="bg-[#131318] border border-white/10 rounded-3xl overflow-hidden hover:border-[#7c6ff7]/40 transition-all">
 
-      {/* ── Image ───────────────────── */}
-      <div className="relative h-44 overflow-hidden">
+      {/* Image */}
+      <div className="relative h-52">
 
         <img
-          src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"
-          alt="PG"
-          className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+          src={
+            pg?.photos?.[0]?.url ||
+            "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"
+          }
+          alt="pg"
+          className="w-full h-full object-cover"
         />
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
-
-        {/* Top Tags */}
-        <div className="absolute top-3 left-3 bg-[#7c6ff7] text-white text-[10px] px-2.5 py-1 rounded-full font-medium">
-          Single Room
-        </div>
-
-        <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-sm border border-white/10 hover:bg-[#7c6ff7] transition">
-          🤍
-        </button>
-
-        {/* Price */}
-        <div className="absolute bottom-3 right-3 bg-black/50 backdrop-blur-md px-3 py-1 rounded-xl">
-          <span className="text-[#4ade80] text-sm font-bold">
-            ₹8,500
-          </span>
-          <span className="text-gray-300 text-xs">
-            /mo
-          </span>
+        <div className="absolute top-4 right-4 bg-[#7c6ff7] text-white text-xs px-3 py-1 rounded-full">
+          {pg?.genderPreference}
         </div>
 
       </div>
 
-      {/* ── Content ───────────────── */}
-      <div className="p-4">
+      {/* Content */}
+      <div className="p-5">
 
-        {/* Title */}
-        <div className="flex items-start justify-between gap-2">
+        <div className="flex justify-between items-start gap-4">
 
           <div>
-
-            <h2 className="text-white text-base font-semibold line-clamp-1">
-              Sunshine PG
+            <h2 className="text-lg font-semibold text-white">
+              {pg?.title}
             </h2>
 
-            <p className="text-gray-400 text-xs mt-1">
-              📍 Lucknow, Uttar Pradesh
+            <p className="text-sm text-gray-400 mt-1">
+              {pg?.city}, {pg?.state}
+            </p>
+          </div>
+
+          <div className="text-right">
+
+            <h3 className="text-xl font-bold text-[#7c6ff7]">
+              ₹{pg?.rent}
+            </h3>
+
+            <p className="text-xs text-gray-400">
+              / month
             </p>
 
           </div>
 
         </div>
 
-        {/* Description */}
-        <p className="text-gray-500 text-sm mt-3 line-clamp-2 leading-5">
-          Fully furnished PG with food, AC and WiFi near college area.
-        </p>
+        {/* Room Info */}
+        <div className="flex gap-3 mt-4 flex-wrap">
 
-        {/* Amenities */}
-        <div className="flex flex-wrap gap-2 mt-4">
+          <div className="bg-[#1a1a22] px-3 py-2 rounded-xl text-sm">
+            {pg?.roomType}
+          </div>
 
-          <span className="px-2 py-1 text-[10px] rounded-lg bg-[#1d1d25] text-gray-300">
-            WiFi
-          </span>
-
-          <span className="px-2 py-1 text-[10px] rounded-lg bg-[#1d1d25] text-gray-300">
-            AC
-          </span>
-
-          <span className="px-2 py-1 text-[10px] rounded-lg bg-[#1d1d25] text-gray-300">
-            Food
-          </span>
-
-          <span className="px-2 py-1 text-[10px] rounded-lg bg-[#1d1d25] text-gray-300">
-            Laundry
-          </span>
+          <div className="bg-[#1a1a22] px-3 py-2 rounded-xl text-sm">
+            {pg?.availableRooms} rooms
+          </div>
 
         </div>
 
-        {/* Bottom */}
-        <div className="flex items-center justify-between mt-5">
+        {/* Amenities */}
+        <div className="flex gap-2 mt-4 flex-wrap">
 
-          <div className="text-xs text-gray-400">
-            👥 Boys
-          </div>
+          {
+            pg?.amenities?.wifi && (
+              <span className="text-xs bg-[#1f2937] px-3 py-1 rounded-full">
+                Wifi
+              </span>
+            )
+          }
 
-          <button className="px-4 py-2 rounded-xl bg-[#7c6ff7] text-white text-xs font-medium hover:opacity-90 transition">
-            View
+          {
+            pg?.amenities?.food && (
+              <span className="text-xs bg-[#1f2937] px-3 py-1 rounded-full">
+                Food
+              </span>
+            )
+          }
+
+          {
+            pg?.amenities?.ac && (
+              <span className="text-xs bg-[#1f2937] px-3 py-1 rounded-full">
+                AC
+              </span>
+            )
+          }
+
+          {
+            pg?.amenities?.parking && (
+              <span className="text-xs bg-[#1f2937] px-3 py-1 rounded-full">
+                Parking
+              </span>
+            )
+          }
+
+        </div>
+
+        {/* Buttons */}
+        <div className="flex gap-3 mt-6">
+
+          <button
+            onClick={() => navigate(`/listings/${pg._id}`)}
+            className="flex-1 bg-[#7c6ff7] hover:opacity-90 transition-all py-3 rounded-2xl text-sm font-medium"
+          >
+            View Details
+          </button>
+
+          <button
+            className="bg-[#1a1a22] hover:bg-[#22222c] px-4 rounded-2xl"
+          >
+            ❤️
           </button>
 
         </div>
@@ -101,8 +124,5 @@ const PGCard = () => {
       </div>
 
     </div>
-
   );
 };
-
-export default PGCard;

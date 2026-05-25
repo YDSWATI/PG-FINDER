@@ -1,10 +1,73 @@
 // src/pages/pg/PGProfile.jsx
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import api from "../../api/axios";
+import { useAuth } from "../../context/AuthContext";
 
 const PGProfile = () => {
-
+  const {user} = useAuth();
+  
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  const [pg, setPg] = useState(null);
+  const isOwner = user?._id===pg?.owner._id
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+
+    const fetchPg = async () => {
+
+      try {
+
+        const response = await api.get(`/listings/${id}`);
+        console.log(response.data)
+        setPg(response.data.listing);
+
+      } catch (error) {
+
+        console.log(error);
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
+
+    fetchPg();
+
+  }, [id]);
+
+  // loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0c0c0f] flex items-center justify-center text-white">
+        Loading...
+      </div>
+    );
+  }
+
+  // no pg found
+  if (!pg) {
+    return (
+      <div className="min-h-screen bg-[#0c0c0f] flex items-center justify-center text-red-400">
+        PG not found
+      </div>
+    );
+  }
+
+  // amenities array
+  const amenities = [];
+
+  if (pg?.amenities?.wifi) amenities.push("📶 WiFi");
+  if (pg?.amenities?.ac) amenities.push("❄️ AC");
+  if (pg?.amenities?.food) amenities.push("🍴 Food");
+  if (pg?.amenities?.parking) amenities.push("🚗 Parking");
+  if (pg?.amenities?.laundry) amenities.push("🧺 Laundry");
+  if (pg?.amenities?.gym) amenities.push("🏋️ Gym");
+  if (pg?.amenities?.hotWater) amenities.push("🚿 Hot Water");
+  if (pg?.amenities?.cctv) amenities.push("📹 CCTV");
 
   return (
 
@@ -12,11 +75,14 @@ const PGProfile = () => {
 
       <div className="max-w-6xl mx-auto">
 
-        {/* Image */}
-        <div className="relative rounded-3xl overflow-hidden h-100">
+        {/* Hero Image */}
+        <div className="relative rounded-3xl overflow-hidden h-105">
 
           <img
-            src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"
+            src={
+              pg?.photos?.[0]?.url ||
+              "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"
+            }
             alt="pg"
             className="w-full h-full object-cover"
           />
@@ -26,21 +92,21 @@ const PGProfile = () => {
           <div className="absolute bottom-8 left-8">
 
             <h1 className="text-4xl font-bold">
-              Sunshine PG
+              {pg?.title}
             </h1>
 
             <p className="text-gray-300 mt-2">
-              📍 Lucknow, Uttar Pradesh
+              📍 {pg?.city}, {pg?.state}
             </p>
 
           </div>
 
         </div>
 
-        {/* Main Content */}
+        {/* Main */}
         <div className="grid lg:grid-cols-3 gap-6 mt-6">
 
-          {/* Left */}
+          {/* LEFT */}
           <div className="lg:col-span-2 space-y-6">
 
             {/* Description */}
@@ -51,8 +117,7 @@ const PGProfile = () => {
               </h2>
 
               <p className="text-gray-400 leading-7">
-                Fully furnished PG with WiFi, food, AC, laundry and parking facilities.
-                Located near college and metro station.
+                {pg?.description || "No description provided"}
               </p>
 
             </div>
@@ -66,24 +131,56 @@ const PGProfile = () => {
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
 
-                <div className="bg-[#1d1d25] p-4 rounded-2xl">
-                  📶 WiFi
+                {
+                  amenities.map((item, index) => (
+                    <div
+                      key={index}
+                      className="bg-[#1d1d25] p-4 rounded-2xl"
+                    >
+                      {item}
+                    </div>
+                  ))
+                }
+
+              </div>
+
+            </div>
+
+            {/* Rules */}
+            <div className="bg-[#131318] border border-white/10 rounded-3xl p-6">
+
+              <h2 className="text-2xl font-semibold mb-5">
+                Rules
+              </h2>
+
+              <div className="space-y-3 text-gray-300">
+
+                <div>
+                  Smoking:
+                  <span className="ml-2 text-white">
+                    {pg?.rules?.smokingAllowed ? "Allowed" : "Not Allowed"}
+                  </span>
                 </div>
 
-                <div className="bg-[#1d1d25] p-4 rounded-2xl">
-                  ❄️ AC
+                <div>
+                  Non-Veg:
+                  <span className="ml-2 text-white">
+                    {pg?.rules?.nonVegAllowed ? "Allowed" : "Not Allowed"}
+                  </span>
                 </div>
 
-                <div className="bg-[#1d1d25] p-4 rounded-2xl">
-                  🍴 Food
+                <div>
+                  Guests:
+                  <span className="ml-2 text-white">
+                    {pg?.rules?.guestsAllowed ? "Allowed" : "Not Allowed"}
+                  </span>
                 </div>
 
-                <div className="bg-[#1d1d25] p-4 rounded-2xl">
-                  🚗 Parking
-                </div>
-
-                <div className="bg-[#1d1d25] p-4 rounded-2xl">
-                  🧺 Laundry
+                <div>
+                  Curfew:
+                  <span className="ml-2 text-white">
+                    {pg?.rules?.curfewTime || "No Curfew"}
+                  </span>
                 </div>
 
               </div>
@@ -92,14 +189,14 @@ const PGProfile = () => {
 
           </div>
 
-          {/* Right */}
+          {/* RIGHT */}
           <div className="space-y-6">
 
-            {/* Price Card */}
+            {/* Price */}
             <div className="bg-[#131318] border border-white/10 rounded-3xl p-6">
 
               <h2 className="text-3xl font-bold text-[#4ade80]">
-                ₹ 8,500
+                ₹ {pg?.rent}
               </h2>
 
               <p className="text-gray-400 mt-1">
@@ -109,39 +206,69 @@ const PGProfile = () => {
               <div className="mt-6 space-y-3">
 
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Room Type</span>
-                  <span>Single</span>
+                  <span className="text-gray-400">
+                    Room Type
+                  </span>
+
+                  <span className="capitalize">
+                    {pg?.roomType}
+                  </span>
                 </div>
 
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">For</span>
-                  <span>Boys</span>
+                  <span className="text-gray-400">
+                    For
+                  </span>
+
+                  <span className="capitalize">
+                    {pg?.genderPreference}
+                  </span>
                 </div>
 
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Deposit</span>
-                  <span>₹ 10,000</span>
+                  <span className="text-gray-400">
+                    Deposit
+                  </span>
+
+                  <span>
+                    ₹ {pg?.deposit}
+                  </span>
+                </div>
+
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">
+                    Available Rooms
+                  </span>
+
+                  <span>
+                    {pg?.availableRooms}
+                  </span>
                 </div>
 
               </div>
 
               {/* Buttons */}
-              <div className="flex flex-col gap-3 mt-8">
+              {
+                isOwner && (
 
-                <button
-                  onClick={() => navigate("/owner/listing/edit/1")}
-                  className="bg-[#7c6ff7] hover:opacity-90 py-3 rounded-2xl font-medium"
-                >
-                  Update Listing
-                </button>
+                  <div className="flex flex-col gap-3 mt-8">
 
-                <button
-                  className="border border-red-500 text-red-400 hover:bg-red-500/10 py-3 rounded-2xl font-medium"
-                >
-                  Delete Listing
-                </button>
+                    <button
+                      onClick={() => navigate(`/listings/edit/${pg._id}`)}
+                      className="bg-[#7c6ff7] hover:opacity-90 py-3 rounded-2xl font-medium"
+                    >
+                      Update Listing
+                    </button>
 
-              </div>
+                    <button
+                      className="border border-red-500 text-red-400 hover:bg-red-500/10 py-3 rounded-2xl font-medium"
+                    >
+                      Delete Listing
+                    </button>
+
+                  </div>
+                )
+              }
 
             </div>
 
@@ -155,15 +282,18 @@ const PGProfile = () => {
               <div className="flex items-center gap-4">
 
                 <img
-                  src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                  src={
+                    pg?.owner?.avatar ||
+                    "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                  }
                   alt="owner"
-                  className="w-14 h-14 rounded-full"
+                  className="w-14 h-14 rounded-full object-cover"
                 />
 
                 <div>
 
                   <h3 className="font-semibold">
-                    Rahul Sharma
+                    {pg?.owner?.name}
                   </h3>
 
                   <p className="text-gray-400 text-sm">
@@ -187,7 +317,6 @@ const PGProfile = () => {
       </div>
 
     </div>
-
   );
 };
 
