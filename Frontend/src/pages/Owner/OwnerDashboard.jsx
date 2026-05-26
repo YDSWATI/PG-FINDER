@@ -5,18 +5,9 @@ import { useAuth } from "../../context/AuthContext";
 
 // ── Sidebar nav items for owner ───────────────────────────────────────────────
 const OWNER_NAV = [
+  
   {
-    to: "/owner/dashboard",
-    label: "Dashboard",
-    icon: (
-      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-        <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
-        <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
-      </svg>
-    ),
-  },
-  {
-    to: "/profile",
+    to: "/owner/profile",
     label: "My Profile",
     icon: (
       <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -25,7 +16,7 @@ const OWNER_NAV = [
     ),
   },
   {
-    to: "/profile/edit",
+    to: "/updateProfile",
     label: "Update Profile",
     icon: (
       <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">

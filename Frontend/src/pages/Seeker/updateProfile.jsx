@@ -209,12 +209,13 @@ const UpdateProfile = () => {
 
           {/* budget */}
           <div>
-
+              {
+                user?.role === "seeker" && (
+            <div className="grid grid-cols-2 gap-4">
             <label className="block mb-2 text-sm text-gray-400">
               Budget Range
             </label>
-
-            <div className="grid grid-cols-2 gap-4">
+              
 
               <input
                 type="number"
@@ -224,17 +225,19 @@ const UpdateProfile = () => {
                 onChange={handleChange}
                 className="bg-[#1a1a22] border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-[#7c6ff7]"
               />
+              
+                  <input
+                    type="number"
+                    name="budgetMax"
+                    placeholder="Max Budget"
+                    value={formData.budgetMax}
+                    onChange={handleChange}
+                    className="bg-[#1a1a22] border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-[#7c6ff7]"
+                  />
+                
 
-              <input
-                type="number"
-                name="budgetMax"
-                placeholder="Max Budget"
-                value={formData.budgetMax}
-                onChange={handleChange}
-                className="bg-[#1a1a22] border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-[#7c6ff7]"
-              />
-
-            </div>
+            </div>)
+              }
 
           </div>
 
