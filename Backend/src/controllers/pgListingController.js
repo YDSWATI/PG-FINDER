@@ -190,22 +190,49 @@ const getListingById = async (req, res) => {
     });
   }
 };
+const getSavedListings = async (req, res) => {
+  try {
 
+    const listings = await PGListing.find({
+      savedBy: req.user.id,
+      isActive: true,
+    }).populate("owner", "name avatar");
+
+    res.status(200).json({
+      success: true,
+      listings,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 // ─────────────────────────────
 // GET MY LISTINGS
 // ─────────────────────────────
 const getMyListings = async (req, res) => {
+
   try {
+
     const listings = await PGListing.find({
       owner: req.user.id,
+      isActive: true,
     }).sort({ createdAt: -1 });
 
-    res.json({
+    res.status(200).json({
       success: true,
       listings,
     });
+
   } catch (error) {
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -347,4 +374,5 @@ export {
   updateListing,
   deleteListing,
   toggleSaveListing,
+  getSavedListings
 };

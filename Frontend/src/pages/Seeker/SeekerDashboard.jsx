@@ -36,7 +36,7 @@ const SEEKER_NAV = [
     ),
   },
   {
-    to: "/saved",
+    to: "/saved-pgs",
     label: "Saved Listings",
     badge: 4,
     icon: (

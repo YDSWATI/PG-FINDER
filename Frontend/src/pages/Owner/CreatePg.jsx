@@ -146,7 +146,7 @@ const CreatePg = () => {
 
       alert("PG Listing Created");
 
-      navigate("/owner/dashboard");
+      navigate("/owner");
 
     } catch (error) {
 

@@ -28,9 +28,9 @@ export default function Home() {
                 style={S.primaryBtn}
                 onClick={() => {
                   if (user.role === "owner") {
-                    navigate("/owner/dashboard");
+                    navigate("/owner");
                   } else {
-                    navigate("/seeker/dashboard");
+                    navigate("/seeker");
                   }
                 }}
               >

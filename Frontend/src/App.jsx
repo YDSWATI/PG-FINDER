@@ -10,10 +10,13 @@ import MyProfile from "./pages/Profiles/MyProfile";
 import UpdateProfile from "./pages/Seeker/updateProfile";
 import UpdateHabits from "./pages/Seeker/updateHabits";
 import CreatePg from "./pages/Owner/CreatePg";
+import MyListings from "./pages/Owner/myListing";
+import SavedPg from "./pages/PGList/savedPg";
 function App() {
   return (
 
       <Routes>
+         <Route path="/" element ={<Home/>} />
         <Route path="/register" element={<Register />} />
 
 
@@ -21,7 +24,7 @@ function App() {
 
         <Route path="/seeker" element ={<SeekerDashboard/>} />
         <Route path="/owner" element ={<OwnerDashboard/>} />
-        <Route path="/home" element ={<Home/>} />
+       
         {/* <Route path="/pglist" element ={<AllPgList/>} /> */}
         <Route path="/listings/:id" element ={<PGProfile/>} />
         <Route path="/myprofile" element ={<MyProfile/>} />
@@ -29,6 +32,11 @@ function App() {
         <Route path="/updateHabits" element ={<UpdateHabits/>} />
         <Route path="/createpg" element ={<CreatePg/>} />
         <Route path="/explorepg" element ={<ExplorePg/>} />
+        <Route
+          path="/owner/listings"
+          element={<MyListings />}
+        />
+        <Route path="/saved-pgs" element={<SavedPg />} />
 
 
          

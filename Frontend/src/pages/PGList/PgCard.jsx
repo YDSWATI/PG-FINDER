@@ -1,7 +1,36 @@
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../../context/AuthContext";
+import { useState } from "react";
+import api from "../../api/axios";
 export const PgCard = ({ pg }) => {
+  const {user} = useAuth();
+  const [saved, setSaved] = useState(
+    pg?.savedBy?.includes(user?._id)
+  );
   const navigate = useNavigate();
+    const handleSave = async () => {
+
+    try {
+
+      const token = localStorage.getItem("token");
+
+      const response = await api.post(
+        `/listings/${pg._id}/save`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setSaved(response.data.saved);
+
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
   return (
 
     <div className="bg-[#131318] border border-white/10 rounded-3xl overflow-hidden hover:border-[#7c6ff7]/40 transition-all">
@@ -114,7 +143,12 @@ export const PgCard = ({ pg }) => {
           </button>
 
           <button
-            className="bg-[#1a1a22] hover:bg-[#22222c] px-4 rounded-2xl"
+            className={`px-4 rounded-2xl transition-all ${
+              saved
+                ? "bg-[#2563eb] text-white"
+                : "bg-[#1a1a22] hover:bg-[#22222c]"
+            }`}
+            onClick={handleSave}
           >
             ❤️
           </button>

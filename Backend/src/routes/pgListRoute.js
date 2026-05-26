@@ -14,6 +14,7 @@ import {
   updateListing,
   deleteListing,
   toggleSaveListing,
+  getSavedListings
 } from "../controllers/pgListingController.js";
 
 const router = express.Router();
@@ -25,6 +26,11 @@ const router = express.Router();
 
 // Get all listings
 router.get("/", getAllListings);
+router.get(
+  "/saved-listings",
+  authMiddleware,
+  getSavedListings
+);
 
 // Get single listing (must be ABOVE "/:id" conflicts avoided)
 router.get("/:id", getListingById);
@@ -52,7 +58,7 @@ router.get(
 );
 
 // Update listing
-router.put(
+router.patch(
   "/:id",
   authMiddleware,
   ownerOnlyMiddleware,
@@ -78,5 +84,6 @@ router.post(
   authMiddleware,
   toggleSaveListing
 );
+
 
 export default router;
